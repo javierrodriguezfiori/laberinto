@@ -1,71 +1,88 @@
 # KidsCanCode - Game Development with Pygame video series
-# Jumpy! (a platform game) - Part 1
-# Video link: https://www.youtube.com/watch?v=uWvb3QzA48c
+# Tile-based game - Part 1
 # Project setup
-
+# Video link: https://youtu.be/3UxnelT9aCo
 import pygame as pg
-import random
+import sys
 from settings import *
 from sprites import *
 
 class Game:
     def __init__(self):
-        # initialize game window, etc
         pg.init()
-        pg.mixer.init()
         self.screen = pg.display.set_mode((WIDTH, HEIGHT))
         pg.display.set_caption(TITLE)
         self.clock = pg.time.Clock()
-        self.running = True
+        pg.key.set_repeat(500, 100)
+        self.load_data()
+
+    def load_data(self):
+        pass
 
     def new(self):
-        # start a new game
+        # initialize all variables and do all the setup for a new game
         self.all_sprites = pg.sprite.Group()
-        self.player = Player()
-        self.all_sprites.add(self.player)
-        self.run()
+        self.walls = pg.sprite.Group()
+        self.player = Player(self, 10, 10)
+        for x in range(10, 20):
+            Wall(self, x, 5)
 
     def run(self):
-        # Game Loop
+        # game loop - set self.playing = False to end the game
         self.playing = True
         while self.playing:
-            self.clock.tick(FPS)
+            self.dt = self.clock.tick(FPS) / 1000
             self.events()
             self.update()
             self.draw()
 
+    def quit(self):
+        pg.quit()
+        sys.exit()
+
     def update(self):
-        # Game Loop - Update
+        # update portion of the game loop
         self.all_sprites.update()
 
-    def events(self):
-        # Game Loop - events
-        for event in pg.event.get():
-            # check for closing window
-            if event.type == pg.QUIT:
-                if self.playing:
-                    self.playing = False
-                self.running = False
+    def draw_grid(self):
+        for x in range(0, WIDTH, TILESIZE):
+            pg.draw.line(self.screen, LIGHTGREY, (x, 0), (x, HEIGHT))
+        for y in range(0, HEIGHT, TILESIZE):
+            pg.draw.line(self.screen, LIGHTGREY, (0, y), (WIDTH, y))
 
     def draw(self):
-        # Game Loop - draw
-        self.screen.fill(BLACK)
+        self.screen.fill(BGCOLOR)
+        self.draw_grid()
         self.all_sprites.draw(self.screen)
-        # *after* drawing everything, flip the display
         pg.display.flip()
 
+    def events(self):
+        # catch all events here
+        for event in pg.event.get():
+            if event.type == pg.QUIT:
+                self.quit()
+            if event.type == pg.KEYDOWN:
+                if event.key == pg.K_ESCAPE:
+                    self.quit()
+                if event.key == pg.K_LEFT:
+                    self.player.move(dx=-1)
+                if event.key == pg.K_RIGHT:
+                    self.player.move(dx=1)
+                if event.key == pg.K_UP:
+                    self.player.move(dy=-1)
+                if event.key == pg.K_DOWN:
+                    self.player.move(dy=1)
+
     def show_start_screen(self):
-        # game splash/start screen
         pass
 
     def show_go_screen(self):
-        # game over/continue
         pass
 
+# create the game object
 g = Game()
 g.show_start_screen()
-while g.running:
+while True:
     g.new()
+    g.run()
     g.show_go_screen()
-
-pg.quit()
