@@ -17,17 +17,17 @@ class Player(pg.sprite.Sprite):
     def move(self, dx=0, dy=0):
         if self.collide_with_oro(dx, dy):
             self.oro += 1
-            print(self.oro)
+            print("Oro: "+str(self.oro))
         if self.collide_with_llave(dx, dy):
             self.llave = True
-            print(self.llave)
+            print("Llave: "+str(self.llave))
         if not self.collide_with_walls(dx, dy) and not self.collide_with_entrada(dx, dy) and not self.collide_with_salida(dx, dy) and not self.collide_with_guardia(dx, dy):
             self.x += dx
             self.y += dy
         if self.collide_with_guardia(dx, dy):
             print("Guardia muerto!")
-            self.x += dx
-            self.y += dy
+            self.oro -= 1
+            print("Oro: "+str(self.oro))
 
         if self.collide_with_salida(dx, dy):
             if self.llave:
