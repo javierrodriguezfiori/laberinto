@@ -25,12 +25,27 @@ class Game:
         # initialize all variables and do all the setup for a new game
         self.all_sprites = pg.sprite.Group()
         self.walls = pg.sprite.Group()
+        self.llaves = pg.sprite.Group()
+        self.entradas = pg.sprite.Group()
+        self.salidas = pg.sprite.Group()
+        self.oros = pg.sprite.Group()
+        self.guardias = pg.sprite.Group()
         for row, tiles in enumerate(self.map_data):
             for col, tile in enumerate(tiles):
                 if tile == 'P':
                     Wall(self, col, row)
                 if tile == 'J':
                     self.player = Player(self, col, row)
+                if tile == 'L':
+                    Llave(self, col, row)
+                if tile == 'E':
+                    Entrada(self, col, row)
+                if tile == 'S':
+                    Salida(self, col, row)
+                if tile == 'O':
+                    Oro(self, col, row)
+                if tile == 'G':
+                    Guardia(self, col, row)
 
     def run(self):
         # Loop del juego
@@ -90,15 +105,13 @@ class Game:
 # Main
 
 # Input de usuario y password
-usuario = raw_input("Ingrese usuario: ")
-password = raw_input("Ingrese password: ")
 
 # Conectar a la base y validar credenciales
-if(login(usuario,password)):
+
     # Instanciar juego e iniciar el loop
-    g = Game()
-    g.show_start_screen()
-    while True:
-        g.new()
-        g.run()
-        g.show_go_screen()
+g = Game()
+g.show_start_screen()
+while True:
+    g.new()
+    g.run()
+    g.show_go_screen()
