@@ -96,10 +96,10 @@ class Game:
                 if event.key == pg.K_DOWN:
                     self.player.move(dy=1)
 
-    def show_start_screen(self):
+    def show_ganaste(self):
         pass
 
-    def show_go_screen(self):
+    def show_perdiste(self):
         pass
 
 # Main
@@ -110,7 +110,6 @@ class Game:
 
     # Instanciar juego e iniciar el loop
 g = Game()
-g.show_start_screen()
 while True:
     g.new()
     g.run()

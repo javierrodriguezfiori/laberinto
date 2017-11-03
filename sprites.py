@@ -21,17 +21,20 @@ class Player(pg.sprite.Sprite):
         if self.collide_with_llave(dx, dy):
             self.llave = True
             print("Llave: "+str(self.llave))
-        if not self.collide_with_walls(dx, dy) and not self.collide_with_entrada(dx, dy) and not self.collide_with_salida(dx, dy) and not self.collide_with_guardia(dx, dy):
+        if not self.collide_with_walls(dx, dy) and not self.collide_with_entrada(dx, dy) and not self.collide_with_salida(dx, dy) and (self.collide_with_guardia(dx, dy)==0):
             self.x += dx
             self.y += dy
-        if self.collide_with_guardia(dx, dy):
+        if self.collide_with_guardia(dx, dy)==1:
             print("Guardia muerto!")
             self.oro -= 1
             print("Oro: "+str(self.oro))
-
+        if self.collide_with_guardia(dx, dy)==2:
+            print("Perdiste!")
+            self.game.show_perdiste()
         if self.collide_with_salida(dx, dy):
             if self.llave:
                 print("Ganaste!")
+                self.game.show_ganaste()
             else:
                 print("Te falta la llave, buscala!")
 
@@ -49,14 +52,14 @@ class Player(pg.sprite.Sprite):
         return False
 
     def collide_with_guardia(self, dx=0, dy=0):
-        resultado = False
+        resultado = 0
         for guardia in self.game.guardias:
             if guardia.x == self.x + dx and guardia.y == self.y + dy:
                 if self.oro>0:
                     guardia.kill()
-                    resultado = True
+                    resultado = 1
                 else:
-                    print("Perdiste!")
+                    resultado = 2
         return resultado
 
     def collide_with_llave(self, dx=0, dy=0):
