@@ -23,6 +23,6 @@ def main():
     server = ThreadServer((host,port),MiTCPHandler)
     server_thread = threading.Thread(target=server.serve_forever)
     server_thread.start()
-    print "Server corriendo..."
+    print "Server corriendo en: ", host, "-", port
 
 main()
