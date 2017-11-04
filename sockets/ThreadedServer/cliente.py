@@ -2,7 +2,7 @@ import socket
 from settings import *
 import pickle
 
-def main():
+def request_map():
     mensaje = ""
     print "Cliente 1.0"
     sock = socket.socket()
