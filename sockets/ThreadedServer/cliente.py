@@ -15,10 +15,13 @@ def main():
             print "No se pudo enviar el mensaje"
         try:
             data = sock.recv(4096)
-            data_string = pickle.loads(data)
-            print data_string
+            try:
+                data_string = pickle.loads(data)
+                print data_string
+            except:
+                print(data)
         except:
-            print "No se pudo recibir respuesta"
+            print "No se pudo recibir data"
     sock.close()
 
 main()
