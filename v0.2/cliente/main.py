@@ -17,18 +17,22 @@ class Game:
         self.request_map()
 
     def request_map(self):
-        sock = socket.socket()
-        sock.connect((host,port))
         try:
-            sock.sendall("map")
+            sock = socket.socket()
+            sock.connect((host,port))
+            try:
+                sock.sendall("map")
+            except:
+                print "No se pudo enviar la peticion"
+            try:
+                data = sock.recv(4096)
+                data_string = pickle.loads(data)
+                self.map_data = data_string
+            except:
+                print("No se pudo recibir el mapa")
         except:
-            print "No se pudo enviar la peticion"
-        try:
-            data = sock.recv(4096)
-            data_string = pickle.loads(data)
-            self.map_data = data_string
-        except:
-            print "No se pudo recibir el mapa"
+            print("No se pudo contactar al servidor")
+            sys.exit()
 
     def new(self):
         # initialize all variables and do all the setup for a new game
