@@ -1,18 +1,24 @@
 import socket
+from settings import *
+import pickle
 
 def main():
     mensaje = ""
     print "Cliente 1.0"
-    host, port = "localhost" , 5000
     sock = socket.socket()
     sock.connect((host,port))
     while mensaje != "salir":
-        print "Ingrese mensaje o salir para terminar"
         mensaje = raw_input ("Mensaje: ")
         try:
-            sock.send(mensaje)
+            sock.sendall(mensaje)
         except:
-            print "No se pudo establecer la conexion con el servidor"
+            print "No se pudo enviar el mensaje"
+        try:
+            data = sock.recv(4096)
+            data_string = pickle.loads(data)
+            print data_string
+        except:
+            print "No se pudo recibir respuesta"
     sock.close()
 
 main()
