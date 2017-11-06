@@ -15,12 +15,17 @@ def load_map(map_data):
 class MiTCPHandler(SocketServer.BaseRequestHandler):
     def handle(self):
         try:
-            data = self.request.recv(1024)
-            if (data == "map"):
+            peticion = self.request.recv(4096)
+            data = pickle.loads(peticion)
+            if (data[0] == "map"):
                 print ("Request de mapa recibida de: "+str(self.client_address))
                 mapa=pickle.dumps(map_data)
                 self.request.send(mapa)
                 print ("Mapa enviado a: "+str(self.client_address))
+            if (data[0] == "login"):
+                print ("Request de login recibida de: "+str(self.client_address))
+                # validar credenciales
+                print ("Respuesta de login enviada a: "+str(self.client_address))
         except:
             print "Cliente desconectado"
 

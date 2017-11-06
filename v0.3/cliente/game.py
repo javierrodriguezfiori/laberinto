@@ -21,7 +21,8 @@ class Game:
             sock = socket.socket()
             sock.connect((host,port))
             try:
-                sock.sendall("map")
+                peticion = pickle.dumps(["map"])
+                sock.sendall(peticion)
             except:
                 print "No se pudo enviar la peticion"
             try:
