@@ -117,17 +117,31 @@ class Game:
                     self.player.move(dy=1)
 
     def show_ganaste(self):
+        fuente = pg.font.Font(None, 20)
+        texto = "Oro: "+str(self.player.oro)
+        mensaje = fuente.render(texto, 1, (255, 255, 255))
         fondo = pg.image.load("images/youwin.jpg")
         self.screen.blit(fondo, (0, 0))
+        self.screen.blit(mensaje, (150, 100))
         pg.display.flip()
-        for event in pg.event.get():
-            if event.key == pg.K_ESCAPE:
-                self.quit()
+        salir = False
+        while not salir:
+            for event in pg.event.get():
+                if event.type == pg.KEYDOWN:
+                    if event.key == pg.K_SPACE:
+                        salir = True
 
     def show_perdiste(self):
+        fuente = pg.font.Font(None, 20)
+        texto = "Presione SPACE para salir"
+        mensaje = fuente.render(texto, 1, (255, 255, 255))
         fondo = pg.image.load("images/gameover.png")
         self.screen.blit(fondo, (0, 0))
+        self.screen.blit(mensaje, (150, 100))
         pg.display.flip()
-        for event in pg.event.get():
-            if event.key == pg.K_ESCAPE:
-                self.quit()
+        salir = False
+        while not salir:
+            for event in pg.event.get():
+                if event.type == pg.KEYDOWN:
+                    if event.key == pg.K_SPACE:
+                        salir = True

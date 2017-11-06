@@ -26,13 +26,13 @@ class MiTCPHandler(SocketServer.BaseRequestHandler):
             if (data[0] == "login"):
                 print ("Request de login recibida de: "+str(self.client_address))
                 # validar credenciales
-                if dblaberinto.login(data[1],data[2]):
+                if dblaberinto.login(data[1],data[2])==1:
                     self.request.send("ok")
-                else:
+                elif dblaberinto.login(data[1],data[2])==2:
                     self.request.send("error")
                 print ("Respuesta de login enviada a: "+str(self.client_address))
         except:
-            print "Cliente desconectado"
+            print ("Cliente desconectado:"+str(self.client_address))
 
 class ThreadServer(SocketServer.ThreadingMixIn, SocketServer.ForkingTCPServer):
     pass
