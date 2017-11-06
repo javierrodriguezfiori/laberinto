@@ -5,6 +5,7 @@ from settings import *
 import sys
 import pickle
 from os import path
+import dblaberinto
 
 def load_map(map_data):
     game_folder = path.dirname(__file__)
@@ -25,6 +26,10 @@ class MiTCPHandler(SocketServer.BaseRequestHandler):
             if (data[0] == "login"):
                 print ("Request de login recibida de: "+str(self.client_address))
                 # validar credenciales
+                if dblaberinto.login(data[1],data[2]):
+                    self.request.send("ok")
+                else:
+                    self.request.send("error")
                 print ("Respuesta de login enviada a: "+str(self.client_address))
         except:
             print "Cliente desconectado"
