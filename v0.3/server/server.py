@@ -17,12 +17,10 @@ class MiTCPHandler(SocketServer.BaseRequestHandler):
         try:
             data = self.request.recv(1024)
             if (data == "map"):
-                print ("Request de Mapa recibida")
+                print ("Request de mapa recibida de: "+str(self.client_address))
                 mapa=pickle.dumps(map_data)
                 self.request.send(mapa)
-                print ("Mapa enviado")
-            else:
-                self.request.send("Request invalida")
+                print ("Mapa enviado a: "+str(self.client_address))
         except:
             print "Cliente desconectado"
 
